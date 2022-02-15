@@ -136,3 +136,10 @@ h2 {
     width: 295px;
     min-height: 30px;
 }
+
+.span-right {
+    margin-left: 12px;
+    vertical-align: middle;
+    font-size: 20px;
+    cursor: pointer;
+}

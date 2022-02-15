@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const createList = () => {
         const elemContainer = document.createElement('div');
-        elemContainer.classList.add('elemCont' ,'animate__animated', 'animate__fadeIn');
+        elemContainer.classList.add('elemCont' ,'animate__animated', 'animate__slideInUp');
         wrapper.append(elemContainer);
 
         const elem = document.createElement('li');
@@ -45,7 +45,6 @@ window.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', (e) => {
         e.preventDefault();
         createList();
-
         clearInput();
     });
 
@@ -64,9 +63,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
             let newSibl = sibl.cloneNode(); 
             newSibl.append(sibl.textContent);
+
+            let btnRight = document.createElement('span');
+            btnRight.innerHTML = '&#10149;';
+            btnRight.classList.add('span-right');
+            
             // console.dir(newSibl);
             newSibl.classList.add('cloneElem', 'animate__animated', 'animate__fadeIn');
             done.append(newSibl);
+            done.append(btnRight);
 
             document.querySelector('.elemCont').remove();
         }
@@ -82,6 +87,13 @@ window.addEventListener('DOMContentLoaded', () => {
             trash.append(newSibl);
 
             document.querySelector('.elemCont').remove();
+        }
+    });
+
+
+    done.addEventListener('click', (e) => {
+        if (e.target && e.target.classList.contains('span-right')) {
+            
         }
     });
 });
