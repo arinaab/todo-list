@@ -142,4 +142,5 @@ h2 {
     vertical-align: middle;
     font-size: 20px;
     cursor: pointer;
+    transform: scaleX(-1);
 }

@@ -10,33 +10,37 @@ window.addEventListener('DOMContentLoaded', () => {
         input.value = '';
     };
 
-    const createList = () => {
+    const createElem = () => {
         const elemContainer = document.createElement('div');
         elemContainer.classList.add('elemCont' ,'animate__animated', 'animate__slideInUp');
         wrapper.append(elemContainer);
 
         const elem = document.createElement('li');
         elem.classList.add('todo__item');
+        elemContainer.append(elem);
 
+        const btnOk = document.createElement('button');
+        btnOk.classList.add('btn', 'btn_ok');
+        btnOk.innerHTML = '&#10004;';
+
+        const btnDel = document.createElement('button');
+        btnDel.classList.add('btn', 'btn_del');
+        btnDel.innerHTML = '&#10006;';
+
+        elemContainer.append(btnOk, btnDel);
+
+        return elem;
+    };
+
+    const createList = () => {
         let val = input.value;
 
         if (val) {
 
-            if (val.length > 23) {
+            if (val.length > 20) {
                 val = val.slice(0, 20) + '...';
             }
-            elem.textContent = val;
-            elemContainer.append(elem);
-
-            const btnOk = document.createElement('button');
-            btnOk.classList.add('btn', 'btn_ok');
-            btnOk.innerHTML = '&#10004;';
-
-            const btnDel = document.createElement('button');
-            btnDel.classList.add('btn', 'btn_del');
-            btnDel.innerHTML = '&#10006;';
-
-            elemContainer.append(btnOk, btnDel);
+            createElem().textContent = val;
             
         } 
 
@@ -53,7 +57,6 @@ window.addEventListener('DOMContentLoaded', () => {
             console.log(e);
         });
     });
-
 
     wrapper.addEventListener('click', (e) => {
         if (e.target && e.target.classList.contains('btn_ok')) {
@@ -83,17 +86,34 @@ window.addEventListener('DOMContentLoaded', () => {
             let newSibl = sibl.cloneNode();
             newSibl.append(sibl.textContent);
 
+            let btnDel = document.createElement('span');
+            btnDel.innerHTML = '&#10006;';
+            btnDel.classList.add('span-right');
+
             newSibl.classList.add('cloneElem', 'animate__animated', 'animate__fadeIn');
             trash.append(newSibl);
+            trash.append(btnDel);
 
             document.querySelector('.elemCont').remove();
         }
     });
 
+    const createClone = (element) => {
+        createElem().textContent = element.innerHTML;
+        element.remove();
+    };
 
     done.addEventListener('click', (e) => {
         if (e.target && e.target.classList.contains('span-right')) {
-            
+            createClone(e.target.previousElementSibling);
+            e.target.remove();
+        }
+    });
+
+    trash.addEventListener('click', (e) => {
+        if (e.target && e.target.classList.contains('span-right')) {
+            createClone(e.target.previousElementSibling);
+            e.target.remove();
         }
     });
 });
