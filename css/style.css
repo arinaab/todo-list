@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Gideon+Roman&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 
 * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    font-family: 'Gideon Roman', cursive;
+    font-family: 'Roboto Slab', serif;
 }
 
 body {
@@ -132,15 +132,19 @@ h2 {
     margin-left: 58px;
 }
 
+.cloneElem_toList {
+    margin-top: 15px;
+    margin-left: 0px;
+}
+
 .elemCont {
     width: 295px;
     min-height: 30px;
 }
 
-.span-right {
+.span-right, .btn-del {
     margin-left: 12px;
-    vertical-align: middle;
+    /* vertical-align: middle; */
     font-size: 20px;
     cursor: pointer;
-    transform: scaleX(-1);
 }

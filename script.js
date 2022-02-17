@@ -10,28 +10,6 @@ window.addEventListener('DOMContentLoaded', () => {
         input.value = '';
     };
 
-    const createElem = () => {
-        const elemContainer = document.createElement('div');
-        elemContainer.classList.add('elemCont' ,'animate__animated', 'animate__slideInUp');
-        wrapper.append(elemContainer);
-
-        const elem = document.createElement('li');
-        elem.classList.add('todo__item');
-        elemContainer.append(elem);
-
-        const btnOk = document.createElement('button');
-        btnOk.classList.add('btn', 'btn_ok');
-        btnOk.innerHTML = '&#10004;';
-
-        const btnDel = document.createElement('button');
-        btnDel.classList.add('btn', 'btn_del');
-        btnDel.innerHTML = '&#10006;';
-
-        elemContainer.append(btnOk, btnDel);
-
-        return elem;
-    };
-
     const createList = () => {
         let val = input.value;
 
@@ -40,7 +18,25 @@ window.addEventListener('DOMContentLoaded', () => {
             if (val.length > 20) {
                 val = val.slice(0, 20) + '...';
             }
-            createElem().textContent = val;
+
+            const elemContainer = document.createElement('div');
+            elemContainer.classList.add('elemCont' ,'animate__animated', 'animate__slideInUp');
+            wrapper.append(elemContainer);
+
+            const elem = document.createElement('li');
+            elem.classList.add('todo__item');
+            elemContainer.append(elem);
+            elem.textContent = val;
+
+            const btnOk = document.createElement('button');
+            btnOk.classList.add('btn', 'btn_ok');
+            btnOk.innerHTML = '&#10004;';
+
+            const btnDel = document.createElement('button');
+            btnDel.classList.add('btn', 'btn_del');
+            btnDel.innerHTML = '&#10006;';
+
+            elemContainer.append(btnOk, btnDel);
             
         } 
 
@@ -52,68 +48,108 @@ window.addEventListener('DOMContentLoaded', () => {
         clearInput();
     });
 
-    document.querySelectorAll('.btn_ok').forEach(item => {
-        item.addEventListener('click', (e) => {
-            console.log(e);
-        });
-    });
+    const cloneElem = (sibl, btn, htmlCode, btnClass, block) => {
+        let newSibl = sibl.cloneNode(true);
+
+        btn.innerHTML = htmlCode;
+        btn.classList.add(btnClass);
+
+        newSibl.classList.add('cloneElem', 'animate__animated', 'animate__fadeIn');
+        block.append(newSibl);
+        block.append(btn);
+
+        sibl.parentElement.remove();
+    };
 
     wrapper.addEventListener('click', (e) => {
         if (e.target && e.target.classList.contains('btn_ok')) {
             done.style.display = 'block';
+            let sibl = e.target.previousElementSibling;
 
-            let sibl = e.target.previousElementSibling; //
-
-            let newSibl = sibl.cloneNode(); 
-            newSibl.append(sibl.textContent);
+            // let newSibl = sibl.cloneNode(true);
 
             let btnRight = document.createElement('span');
-            btnRight.innerHTML = '&#10149;';
-            btnRight.classList.add('span-right');
+            // btnRight.innerHTML = '&#10149;';
+            // btnRight.classList.add('span-right');
             
-            // console.dir(newSibl);
-            newSibl.classList.add('cloneElem', 'animate__animated', 'animate__fadeIn');
-            done.append(newSibl);
-            done.append(btnRight);
+            // // console.dir(newSibl);
+            // newSibl.classList.add('cloneElem', 'animate__animated', 'animate__fadeIn');
+            // done.append(newSibl);
+            // done.append(btnRight);
+            // sibl.parentElement.remove();
 
-            document.querySelector('.elemCont').remove();
+            cloneElem(sibl, btnRight, '&#10149;', 'span-right', done);
         }
 
         if (e.target && e.target.classList.contains('btn_del')) {
             trash.style.display = 'block';
 
             let sibl = e.target.previousElementSibling.previousElementSibling;
-            let newSibl = sibl.cloneNode();
-            newSibl.append(sibl.textContent);
+            // let newSibl = sibl.cloneNode(true);
 
             let btnDel = document.createElement('span');
-            btnDel.innerHTML = '&#10006;';
-            btnDel.classList.add('span-right');
+            // btnDel.innerHTML = '&#10006;';
+            // btnDel.classList.add('btn-del');
 
-            newSibl.classList.add('cloneElem', 'animate__animated', 'animate__fadeIn');
-            trash.append(newSibl);
-            trash.append(btnDel);
+            // newSibl.classList.add('cloneElem', 'animate__animated', 'animate__fadeIn');
+            // trash.append(newSibl);
+            // trash.append(btnDel);
 
-            document.querySelector('.elemCont').remove();
+            // sibl.parentElement.remove();
+            cloneElem(sibl, btnDel, '&#10006', 'btn-del', trash);
         }
     });
 
-    const createClone = (element) => {
-        createElem().textContent = element.innerHTML;
-        element.remove();
-    };
 
     done.addEventListener('click', (e) => {
         if (e.target && e.target.classList.contains('span-right')) {
-            createClone(e.target.previousElementSibling);
+            
+            let sibl = e.target.previousElementSibling;
+            let newSibl = sibl.cloneNode(true);
+            newSibl.classList.add('animate__animated', 'animate__fadeIn');
+            newSibl.classList.remove('cloneElem');
+
+            const elemContainer = document.createElement('div');
+            elemContainer.classList.add('elemCont' ,'animate__animated', 'animate__slideInUp');
+            wrapper.append(elemContainer);
+
+            const btnOk = document.createElement('button');
+            btnOk.classList.add('btn', 'btn_ok');
+            btnOk.innerHTML = '&#10004;';
+
+            const btnDel = document.createElement('button');
+            btnDel.classList.add('btn', 'btn_del');
+            btnDel.innerHTML = '&#10006;';
+
+            elemContainer.append(newSibl, btnOk, btnDel);
+
             e.target.remove();
+            sibl.remove();
         }
     });
 
     trash.addEventListener('click', (e) => {
-        if (e.target && e.target.classList.contains('span-right')) {
-            createClone(e.target.previousElementSibling);
+        if (e.target && e.target.classList.contains('btn-del')) {
+            let sibl = e.target.previousElementSibling;
+            let newSibl = sibl.cloneNode(true);
+            newSibl.classList.add('animate__animated', 'animate__fadeIn');
+
+            const elemContainer = document.createElement('div');
+            elemContainer.classList.add('elemCont' ,'animate__animated', 'animate__slideInUp');
+            wrapper.append(elemContainer);
+
+            const btnOk = document.createElement('button');
+            btnOk.classList.add('btn', 'btn_ok');
+            btnOk.innerHTML = '&#10004;';
+
+            const btnDel = document.createElement('button');
+            btnDel.classList.add('btn', 'btn_del');
+            btnDel.innerHTML = '&#10006;';
+
+            elemContainer.append(newSibl, btnOk, btnDel);
+
             e.target.remove();
+            sibl.remove();
         }
     });
 });
