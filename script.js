@@ -14,9 +14,8 @@ window.addEventListener('DOMContentLoaded', () => {
         let val = input.value;
 
         if (val) {
-
-            if (val.length > 20) {
-                val = val.slice(0, 20) + '...';
+            if (val.length > 15) {
+                val = val.slice(0, 16) + '...';
             }
 
             const elemContainer = document.createElement('div');
@@ -131,22 +130,6 @@ window.addEventListener('DOMContentLoaded', () => {
     trash.addEventListener('click', (e) => {
         if (e.target && e.target.classList.contains('btn-del')) {
             let sibl = e.target.previousElementSibling;
-            let newSibl = sibl.cloneNode(true);
-            newSibl.classList.add('animate__animated', 'animate__fadeIn');
-
-            const elemContainer = document.createElement('div');
-            elemContainer.classList.add('elemCont' ,'animate__animated', 'animate__slideInUp');
-            wrapper.append(elemContainer);
-
-            const btnOk = document.createElement('button');
-            btnOk.classList.add('btn', 'btn_ok');
-            btnOk.innerHTML = '&#10004;';
-
-            const btnDel = document.createElement('button');
-            btnDel.classList.add('btn', 'btn_del');
-            btnDel.innerHTML = '&#10006;';
-
-            elemContainer.append(newSibl, btnOk, btnDel);
 
             e.target.remove();
             sibl.remove();
